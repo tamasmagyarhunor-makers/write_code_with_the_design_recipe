@@ -6,6 +6,29 @@ Copy this into a `recipe.md` in your project and fill it out.
 
 _Put or write the user story here. Add any clarifying notes you might have._
 
+```
+As a child
+So that I can store my toys
+I want to put toys I've played with to my toybox and see a list of them.
+```
+
+```
+potential objects:
+- ToyStorage
+- Toy
+- ToyBox
+
+potential functions/behaviours/features:
+- add toys
+- see number of toys
+- see type of toys
+- toys list
+- retrieve toys
+- toys played with
+- remove toys
+```
+
+
 ## 2. Design the Class Interface
 
 _Include the initializer, public properties, and public methods with all parameters, return values, and side-effects._
@@ -13,32 +36,30 @@ _Include the initializer, public properties, and public methods with all paramet
 ```python
 # EXAMPLE
 
-class Reminder:
-    # User-facing properties:
-    #   name: string
-
-    def __init__(self, name):
-        # Parameters:
-        #   name: string
+class ToyStorage:
+    def __init__(self):
+        # Properties:
+        #   toy_list: List
         # Side effects:
-        #   Sets the name property of the self object
-        pass # No code here yet
-
-    def remind_me_to(self, task):
-        # Parameters:
-        #   task: string representing a single task
+        #   sets toylist to an empty List
         # Returns:
-        #   Nothing
-        # Side-effects
-        #   Saves the task to the self object
-        pass # No code here yet
+        #   nothing
 
-    def remind(self):
+    def add_toy(self, toy):
+        # Properties:
+        # toy: string
+        # Side effects:
+        #   adds toy to the self.toy_list
         # Returns:
-        #   A string reminding the user to do the task
+        #   nothing
+
+    def see_toys(self):
+        # Properties
+        #   None
         # Side-effects:
-        #   Throws an exception if no task is set
-        pass # No code here yet
+        #   None *(but it returns the self.toy_list)
+        # Returns:
+        #   returns the self.toy_list
 ```
 
 ## 3. Create Examples as Tests
@@ -49,27 +70,49 @@ _Make a list of examples of how the class will behave in different situations._
 # EXAMPLE
 
 """
-Given a name and a task
-#remind reminds the user to do the task
+Given a new instance of ToyStorage
+It comes with an empty list (self.toy_list)
 """
-reminder = Reminder("Kay")
-reminder.remind_me_to("Walk the dog")
-reminder.remind() # => "Walk the dog, Kay!"
+toy_storage = ToyStorage()
+actual = toy_storage.toy_list
+expected = []
+assert actual == expected # => []
 
 """
-Given a name and no task
-#remind raises an exception
+Given I add a toy to the toy_list
+I want to see the toy in the toy_list
 """
-reminder = Reminder("Kay")
-reminder.remind() # raises an error with the message "No task set."
+toy_storage = ToyStorage()
+toy_storage.add('teddy')
+
+actual = toy_storage.toy_list
+expected = ['teddy']
+assert actual == expected # => ['teddy']
 
 """
-Given a name and an empty task
-#remind still reminds the user to do the task, even though it looks odd
+Given I add two toys to the toy_list
+I want to see both toys in the toy_list
 """
-reminder = Reminder("Kay")
-reminder.remind_me_to("")
-reminder.remind() # => ", Kay!"
+toy_storage = ToyStorage()
+toy_storage.add('teddy')
+toy_storage.add('ball')
+
+actual = toy_storage.toy_list
+expected = ['teddy', 'ball']
+assert actual == expected # => ['teddy', 'ball']
+
+"""
+Given I add some toys to the toy_list
+I want to see all toys in the toy_list
+"""
+toy_storage = ToyStorage()
+toy_storage.add('teddy')
+toy_storage.add('ball')
+toy_storage.add('barbie')
+
+actual = toy_storage.see_toys()
+expected = ['teddy', 'ball', 'barbie']
+assert actual == expected # => ['teddy', 'ball', 'barbie']
 ```
 
 _Encode each example as a test. You can add to the above list as you go._
